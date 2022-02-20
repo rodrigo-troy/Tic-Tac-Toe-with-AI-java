@@ -57,30 +57,30 @@ public class TicTacToe {
         if (xCells - oCells >= 2 ||
             oCells - xCells >= 2 ||
             ((xWin == oWin) && xWin)) {
-            System.out.print("Impossible");
+            System.out.println("Impossible");
             return true;
         }
 
         if (xWin) {
-            System.out.print("X wins");
+            System.out.println("X wins");
             return true;
         }
 
         if (oWin) {
-            System.out.print("O wins");
+            System.out.println("O wins");
             return true;
         }
 
         if (emptyCells > 0) {
-            System.out.print("Game not finished");
+            System.out.println("Game not finished");
             return false;
         }
 
-        System.out.print("Draw");
+        System.out.println("Draw");
         return true;
     }
 
-    public void printBoard() {
+    private void printBoard() {
         System.out.println("---------");
         for (int i = 0; i < board.length; i++) {
             String s = board[i];
@@ -100,7 +100,7 @@ public class TicTacToe {
         System.out.println("---------");
     }
 
-    private void playComputer() {
+    private void playComputer(String symbol) {
         System.out.println("Making move level \"easy\"");
 
         while (true) {
@@ -109,16 +109,17 @@ public class TicTacToe {
 
             if (!board[rowIndex * 3 + columnIndex].equals("X") &&
                 !board[rowIndex * 3 + columnIndex].equals("O")) {
-                board[rowIndex * 3 + columnIndex] = "O";
-                printBoard();
+                board[rowIndex * 3 + columnIndex] = symbol;
                 return;
             }
         }
     }
 
-    public void starGame() {
+    private void playHuman(String symbol) {
+        Scanner scanner = null;
+
         while (true) {
-            Scanner scanner = new Scanner(System.in);
+            scanner = new Scanner(System.in);
             System.out.print("Enter the coordinates: ");
 
             if (!scanner.hasNextInt()) {
@@ -145,8 +146,6 @@ public class TicTacToe {
                 continue;
             }
 
-            System.out.println("coord= " + rowIndex + "," + columnIndex);
-
             rowIndex--;
             columnIndex--;
 
@@ -154,22 +153,83 @@ public class TicTacToe {
                 board[rowIndex * 3 + columnIndex].equals("O")) {
                 System.out.println("This cell is occupied! Choose another one!");
             } else {
-                board[rowIndex * 3 + columnIndex] = "X";
-                printBoard();
-
-                if (this.isGameOver()) {
-                    return;
-                }
-
-                this.playComputer();
-                printBoard();
-
-                if (this.isGameOver()) {
-                    return;
-                }
+                board[rowIndex * 3 + columnIndex] = symbol;
+                return;
             }
         }
     }
 
+    public void starGame() {
+        String player1 = null;
+        String player2 = null;
+        Scanner scanner = new Scanner(System.in);
 
+        while (player1 == null || player2 == null) {
+            System.out.print("Input command: ");
+
+            String line = scanner.nextLine();
+
+            if (line.equalsIgnoreCase("exit")) {
+                return;
+            }
+
+            String[] c = line.split(" ");
+
+            if (c.length != 3) {
+                System.out.println("Bad parameters!");
+                continue;
+            }
+
+            if (!c[0].equalsIgnoreCase("start")) {
+                System.out.println("Bad parameters!");
+                continue;
+            }
+
+            if (!c[1].equalsIgnoreCase("easy") &&
+                !c[1].equalsIgnoreCase("user")) {
+                System.out.println("Bad parameters!");
+                continue;
+            } else {
+                player1 = c[1];
+            }
+
+            if (!c[2].equalsIgnoreCase("easy") &&
+                !c[2].equalsIgnoreCase("user")) {
+                System.out.println("Bad parameters!");
+            } else {
+                player2 = c[2];
+            }
+        }
+
+        this.printBoard();
+
+        boolean player1IsHuman = player1.equals("user");
+        boolean player2IsHuman = player2.equals("user");
+
+        while (true) {
+            if (player1IsHuman) {
+                this.playHuman("X");
+            } else {
+                this.playComputer("X");
+            }
+
+            printBoard();
+
+            if (this.isGameOver()) {
+                return;
+            }
+
+            if (player2IsHuman) {
+                this.playHuman("O");
+            } else {
+                this.playComputer("O");
+            }
+
+            printBoard();
+
+            if (this.isGameOver()) {
+                return;
+            }
+        }
+    }
 }
