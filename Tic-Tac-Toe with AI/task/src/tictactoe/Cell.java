@@ -8,24 +8,39 @@ package tictactoe;
  * Time: 15:05
  */
 public class Cell {
-    private final int x;
-    private final int y;
+    private final int row;
+    private final int column;
     private final char symbol;
 
-    public Cell(int x,
-                int y,
+    public Cell(int row,
+                int column,
                 char symbol) {
-        this.x = x;
-        this.y = y;
+        this.row = row;
+        this.column = column;
         this.symbol = symbol;
     }
 
-    public int getX() {
-        return x;
+    public static Cell createEmptyCell(int row,
+                                       int column) {
+        return new Cell(row,
+                        column,
+                        ' ');
     }
 
-    public int getY() {
-        return y;
+    public static Cell createCell(int row,
+                                  int column,
+                                  char symbol) {
+        return new Cell(row,
+                        column,
+                        symbol);
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public int getRow() {
+        return row;
     }
 
     public char getSymbol() {
@@ -35,8 +50,8 @@ public class Cell {
     @Override
     public String toString() {
         return "Cell{" +
-               "x=" + x +
-               ", y=" + y +
+               "x=" + column +
+               ", y=" + row +
                ", symbol=" + symbol +
                '}';
     }

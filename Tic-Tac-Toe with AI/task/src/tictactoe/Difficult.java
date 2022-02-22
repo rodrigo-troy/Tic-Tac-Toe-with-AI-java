@@ -11,25 +11,26 @@ import java.util.EnumSet;
  */
 public enum Difficult {
     UNDEFINED("undefined"),
+    USER("user"),
     EASY("easy"),
     MEDIUM("medium"),
     HARD("hard");
 
-    private String alias;
+    private final String alias;
 
     Difficult(String alias) {
         this.alias = alias;
     }
 
-    public String getAlias() {
-        return alias;
-    }
-
-    public Difficult getByAlias(String alias) {
+    public static Difficult getByAlias(String alias) {
         return EnumSet.allOf(Difficult.class)
                       .stream()
                       .filter(rt -> alias.equalsIgnoreCase(rt.getAlias()))
                       .findFirst()
                       .orElse(Difficult.UNDEFINED);
+    }
+
+    public String getAlias() {
+        return alias;
     }
 }

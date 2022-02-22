@@ -1,5 +1,7 @@
 package tictactoe;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -10,14 +12,78 @@ import java.util.Scanner;
  * Time: 13:30
  */
 public class TicTacToe {
-    private final String[] board;
+    private final Cell[][] board;
+    private Player player1;
+    private Player player2;
 
     public TicTacToe() {
-        this.board = new String[]{" ", " ", " ", " ", " ", " ", " ", " ", " "};
+        this.board = new Cell[3][3];
+    }
+
+    public static List<CellGroup> getWinnerCombination() {
+        List<CellGroup> winnerCoord = new ArrayList<>();
+        winnerCoord.add(new CellGroup(Cell.createEmptyCell(0,
+                                                           0),
+                                      Cell.createEmptyCell(0,
+                                                           1),
+                                      Cell.createEmptyCell(0,
+                                                           2)));
+        winnerCoord.add(new CellGroup(Cell.createEmptyCell(1,
+                                                           0),
+                                      Cell.createEmptyCell(1,
+                                                           1),
+                                      Cell.createEmptyCell(1,
+                                                           2)));
+        winnerCoord.add(new CellGroup(Cell.createEmptyCell(2,
+                                                           0),
+                                      Cell.createEmptyCell(2,
+                                                           1),
+                                      Cell.createEmptyCell(2,
+                                                           2)));
+        winnerCoord.add(new CellGroup(Cell.createEmptyCell(0,
+                                                           0),
+                                      Cell.createEmptyCell(1,
+                                                           0),
+                                      Cell.createEmptyCell(2,
+                                                           0)));
+        winnerCoord.add(new CellGroup(Cell.createEmptyCell(0,
+                                                           1),
+                                      Cell.createEmptyCell(1,
+                                                           1),
+                                      Cell.createEmptyCell(2,
+                                                           1)));
+        winnerCoord.add(new CellGroup(Cell.createEmptyCell(0,
+                                                           2),
+                                      Cell.createEmptyCell(1,
+                                                           2),
+                                      Cell.createEmptyCell(2,
+                                                           2)));
+        winnerCoord.add(new CellGroup(Cell.createEmptyCell(0,
+                                                           0),
+                                      Cell.createEmptyCell(1,
+                                                           1),
+                                      Cell.createEmptyCell(2,
+                                                           2)));
+        winnerCoord.add(new CellGroup(Cell.createEmptyCell(0,
+                                                           2),
+                                      Cell.createEmptyCell(1,
+                                                           1),
+                                      Cell.createEmptyCell(2,
+                                                           0)));
+        return winnerCoord;
+    }
+
+    private void prepareBoard() {
+        for (int row = 0; row < board.length; row++) {
+            for (int column = 0; column < board[row].length; column++) {
+                board[row][column] = Cell.createEmptyCell(row,
+                                                          column);
+            }
+        }
     }
 
     private boolean isGameOver() {
-        String[] winnerCoord = {"012", "345", "678", "036", "147", "258", "048", "246"};
+        List<CellGroup> winnerCoord = getWinnerCombination();
         int emptyCells = 0;
         int xCells = 0;
         int oCells = 0;
@@ -82,86 +148,25 @@ public class TicTacToe {
 
     private void printBoard() {
         System.out.println("---------");
-        for (int i = 0; i < board.length; i++) {
-            String s = board[i];
+        for (int row = 0; row < board.length; row++) {
+            for (int column = 0; column < board[row].length; column++) {
+                char symbol = board[row][column].getSymbol();
 
-            if (s.equals("_")) {
-                s = " ";
-            }
-
-            if (i % 3 == 0) {
-                System.out.print("| " + s);
-            } else if (i % 3 == 1) {
-                System.out.print(" " + s + " ");
-            } else {
-                System.out.print(s + " |\n");
+                if (column == 0) {
+                    System.out.print("| " + symbol);
+                } else if (column == 1) {
+                    System.out.print(" " + symbol + " ");
+                } else {
+                    System.out.print(symbol + " |\n");
+                }
             }
         }
         System.out.println("---------");
     }
 
-    private void playComputer(String symbol) {
-        System.out.println("Making move level \"easy\"");
-
-        while (true) {
-            int rowIndex = (int) (Math.random() * 3);
-            int columnIndex = (int) (Math.random() * 3);
-
-            if (!board[rowIndex * 3 + columnIndex].equals("X") &&
-                !board[rowIndex * 3 + columnIndex].equals("O")) {
-                board[rowIndex * 3 + columnIndex] = symbol;
-                return;
-            }
-        }
-    }
-
-    private void playHuman(String symbol) {
-        Scanner scanner = null;
-
-        while (true) {
-            scanner = new Scanner(System.in);
-            System.out.print("Enter the coordinates: ");
-
-            if (!scanner.hasNextInt()) {
-                System.out.println("You should enter numbers!");
-                continue;
-            }
-
-            int rowIndex = scanner.nextInt();
-
-            if (rowIndex > 3 || rowIndex < 1) {
-                System.out.println("Coordinates should be from 1 to 3!");
-                continue;
-            }
-
-            if (!scanner.hasNextInt()) {
-                System.out.println("You should enter numbers!");
-                continue;
-            }
-
-            int columnIndex = scanner.nextInt();
-
-            if (columnIndex > 3 || columnIndex < 1) {
-                System.out.println("Coordinates should be from 1 to 3!");
-                continue;
-            }
-
-            rowIndex--;
-            columnIndex--;
-
-            if (board[rowIndex * 3 + columnIndex].equals("X") ||
-                board[rowIndex * 3 + columnIndex].equals("O")) {
-                System.out.println("This cell is occupied! Choose another one!");
-            } else {
-                board[rowIndex * 3 + columnIndex] = symbol;
-                return;
-            }
-        }
-    }
-
     public void starGame() {
-        String player1 = null;
-        String player2 = null;
+        Player player1 = null;
+        Player player2 = null;
         Scanner scanner = new Scanner(System.in);
 
         while (player1 == null || player2 == null) {
@@ -185,45 +190,33 @@ public class TicTacToe {
                 continue;
             }
 
-            if (!c[1].equalsIgnoreCase("easy") &&
-                !c[1].equalsIgnoreCase("user")) {
+            if (Difficult.getByAlias(c[1]).equals(Difficult.UNDEFINED)) {
                 System.out.println("Bad parameters!");
                 continue;
             } else {
-                player1 = c[1];
+                player1 = PlayerFactory.createPlayer(Difficult.getByAlias(c[1]),
+                                                     'X');
             }
 
-            if (!c[2].equalsIgnoreCase("easy") &&
-                !c[2].equalsIgnoreCase("user")) {
+            if (Difficult.getByAlias(c[2]).equals(Difficult.UNDEFINED)) {
                 System.out.println("Bad parameters!");
             } else {
-                player2 = c[2];
+                player2 = PlayerFactory.createPlayer(Difficult.getByAlias(c[1]),
+                                                     'O');
             }
         }
 
         this.printBoard();
 
-        boolean player1IsHuman = player1.equals("user");
-        boolean player2IsHuman = player2.equals("user");
-
         while (true) {
-            if (player1IsHuman) {
-                this.playHuman("X");
-            } else {
-                this.playComputer("X");
-            }
-
+            player1.play(board);
             printBoard();
 
             if (this.isGameOver()) {
                 return;
             }
 
-            if (player2IsHuman) {
-                this.playHuman("O");
-            } else {
-                this.playComputer("O");
-            }
+            player2.play(board);
 
             printBoard();
 
