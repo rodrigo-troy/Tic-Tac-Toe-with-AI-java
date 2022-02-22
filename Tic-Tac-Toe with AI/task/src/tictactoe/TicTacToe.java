@@ -18,58 +18,59 @@ public class TicTacToe {
 
     public TicTacToe() {
         this.board = new Cell[3][3];
+        this.prepareBoard();
     }
 
     public static List<CellGroup> getWinnerCombination() {
         List<CellGroup> winnerCoord = new ArrayList<>();
-        winnerCoord.add(new CellGroup(Cell.createEmptyCell(0,
-                                                           0),
-                                      Cell.createEmptyCell(0,
-                                                           1),
-                                      Cell.createEmptyCell(0,
-                                                           2)));
-        winnerCoord.add(new CellGroup(Cell.createEmptyCell(1,
-                                                           0),
-                                      Cell.createEmptyCell(1,
-                                                           1),
-                                      Cell.createEmptyCell(1,
-                                                           2)));
-        winnerCoord.add(new CellGroup(Cell.createEmptyCell(2,
-                                                           0),
-                                      Cell.createEmptyCell(2,
-                                                           1),
-                                      Cell.createEmptyCell(2,
-                                                           2)));
-        winnerCoord.add(new CellGroup(Cell.createEmptyCell(0,
-                                                           0),
-                                      Cell.createEmptyCell(1,
-                                                           0),
-                                      Cell.createEmptyCell(2,
-                                                           0)));
-        winnerCoord.add(new CellGroup(Cell.createEmptyCell(0,
-                                                           1),
-                                      Cell.createEmptyCell(1,
-                                                           1),
-                                      Cell.createEmptyCell(2,
-                                                           1)));
-        winnerCoord.add(new CellGroup(Cell.createEmptyCell(0,
-                                                           2),
-                                      Cell.createEmptyCell(1,
-                                                           2),
-                                      Cell.createEmptyCell(2,
-                                                           2)));
-        winnerCoord.add(new CellGroup(Cell.createEmptyCell(0,
-                                                           0),
-                                      Cell.createEmptyCell(1,
-                                                           1),
-                                      Cell.createEmptyCell(2,
-                                                           2)));
-        winnerCoord.add(new CellGroup(Cell.createEmptyCell(0,
-                                                           2),
-                                      Cell.createEmptyCell(1,
-                                                           1),
-                                      Cell.createEmptyCell(2,
-                                                           0)));
+        winnerCoord.add(new CellGroup(0,
+                                      0,
+                                      0,
+                                      1,
+                                      0,
+                                      2));
+        winnerCoord.add(new CellGroup(1,
+                                      0,
+                                      1,
+                                      1,
+                                      1,
+                                      2));
+        winnerCoord.add(new CellGroup(2,
+                                      0,
+                                      2,
+                                      1,
+                                      2,
+                                      2));
+        winnerCoord.add(new CellGroup(0,
+                                      0,
+                                      1,
+                                      0,
+                                      2,
+                                      0));
+        winnerCoord.add(new CellGroup(0,
+                                      1,
+                                      1,
+                                      1,
+                                      2,
+                                      1));
+        winnerCoord.add(new CellGroup(0,
+                                      2,
+                                      1,
+                                      2,
+                                      2,
+                                      2));
+        winnerCoord.add(new CellGroup(0,
+                                      0,
+                                      1,
+                                      1,
+                                      2,
+                                      2));
+        winnerCoord.add(new CellGroup(0,
+                                      2,
+                                      1,
+                                      1,
+                                      2,
+                                      0));
         return winnerCoord;
     }
 
@@ -88,22 +89,29 @@ public class TicTacToe {
         int xCells = 0;
         int oCells = 0;
 
-        for (String value : board) {
-            switch (value) {
-                case "X":
-                    xCells++;
-                    break;
-                case "O":
-                    oCells++;
-                    break;
-                case "_": case " ":
-                    emptyCells++;
-                    break;
+        for (int row = 0; row < board.length; row++) {
+            for (int column = 0; column < board[row].length; column++) {
+                switch (board[row][column].getSymbol()) {
+                    case 'X':
+                        xCells++;
+                        break;
+                    case 'O':
+                        oCells++;
+                        break;
+                    case '_': case ' ':
+                        emptyCells++;
+                        break;
+                }
             }
         }
 
         boolean xWin = false;
         boolean oWin = false;
+        for (CellGroup cellGroup : winnerCoord) {
+
+        }
+
+
         for (String s : winnerCoord) {
             String[] pos = s.split("");
 
