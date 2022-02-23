@@ -13,8 +13,6 @@ import java.util.Scanner;
  */
 public class TicTacToe {
     private final Cell[][] board;
-    private Player player1;
-    private Player player2;
 
     public TicTacToe() {
         this.board = new Cell[3][3];
@@ -108,21 +106,14 @@ public class TicTacToe {
         boolean xWin = false;
         boolean oWin = false;
         for (CellGroup cellGroup : winnerCoord) {
+            Cell cell1 = board[cellGroup.getRowIndex0()][cellGroup.getColumnIndex0()];
+            Cell cell2 = board[cellGroup.getRowIndex1()][cellGroup.getColumnIndex1()];
+            Cell cell3 = board[cellGroup.getRowIndex2()][cellGroup.getColumnIndex2()];
 
-        }
-
-
-        for (String s : winnerCoord) {
-            String[] pos = s.split("");
-
-            int pos1 = Integer.parseInt(pos[0]);
-            int pos2 = Integer.parseInt(pos[1]);
-            int pos3 = Integer.parseInt(pos[2]);
-
-            if (board[pos1].equals(board[pos2]) && board[pos2].equals(board[pos3])) {
-                if (board[pos1].equals("X")) {
+            if (cell1 == cell2 && cell2 == cell3) {
+                if (cell1.getSymbol() == 'X') {
                     xWin = true;
-                } else if (board[pos1].equals("O")) {
+                } else if (cell1.getSymbol() == 'O') {
                     oWin = true;
                 }
             }

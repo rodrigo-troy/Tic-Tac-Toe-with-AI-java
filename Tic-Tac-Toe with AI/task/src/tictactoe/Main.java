@@ -5,5 +5,4 @@ public class Main {
         TicTacToe ticTacToe = new TicTacToe();
         ticTacToe.starGame();
     }
-
 }
