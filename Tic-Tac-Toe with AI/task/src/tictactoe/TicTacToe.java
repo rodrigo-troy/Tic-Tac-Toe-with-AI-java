@@ -81,27 +81,12 @@ public class TicTacToe {
         }
     }
 
-    private boolean isGameOver() {
+    private boolean isGameOver(Player player1,
+                               Player player2) {
         List<CellGroup> winnerCoord = getWinnerCombination();
-        int emptyCells = 0;
-        int xCells = 0;
-        int oCells = 0;
-
-        for (int row = 0; row < board.length; row++) {
-            for (int column = 0; column < board[row].length; column++) {
-                switch (board[row][column].getSymbol()) {
-                    case 'X':
-                        xCells++;
-                        break;
-                    case 'O':
-                        oCells++;
-                        break;
-                    case '_': case ' ':
-                        emptyCells++;
-                        break;
-                }
-            }
-        }
+        int xCells = player1.getMoves().size();
+        int oCells = player2.getMoves().size();
+        int emptyCells = 9 - xCells - oCells;
 
         boolean xWin = false;
         boolean oWin = false;
@@ -150,6 +135,7 @@ public class TicTacToe {
 
     private void printBoard() {
         System.out.println("---------");
+
         for (int row = 0; row < board.length; row++) {
             for (int column = 0; column < board[row].length; column++) {
                 char symbol = board[row][column].getSymbol();
@@ -163,6 +149,7 @@ public class TicTacToe {
                 }
             }
         }
+
         System.out.println("---------");
     }
 
@@ -203,7 +190,7 @@ public class TicTacToe {
             if (Difficult.getByAlias(c[2]).equals(Difficult.UNDEFINED)) {
                 System.out.println("Bad parameters!");
             } else {
-                player2 = PlayerFactory.createPlayer(Difficult.getByAlias(c[1]),
+                player2 = PlayerFactory.createPlayer(Difficult.getByAlias(c[2]),
                                                      'O');
             }
         }
@@ -211,18 +198,22 @@ public class TicTacToe {
         this.printBoard();
 
         while (true) {
-            player1.play(board);
-            printBoard();
+            player1.play(board,
+                         player2.getMoves());
+            this.printBoard();
 
-            if (this.isGameOver()) {
+            if (this.isGameOver(player1,
+                                player2)) {
                 return;
             }
 
-            player2.play(board);
+            player2.play(board,
+                         player1.getMoves());
 
-            printBoard();
+            this.printBoard();
 
-            if (this.isGameOver()) {
+            if (this.isGameOver(player1,
+                                player1)) {
                 return;
             }
         }

@@ -1,5 +1,6 @@
 package tictactoe;
 
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -16,7 +17,8 @@ public class Human extends Player {
     }
 
     @Override
-    public void play(Cell[][] board) {
+    public void play(Cell[][] board,
+                     List<Cell> oponentMoves) {
         Scanner scanner = null;
 
         while (true) {

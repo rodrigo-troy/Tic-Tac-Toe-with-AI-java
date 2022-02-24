@@ -1,5 +1,8 @@
 package tictactoe;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
  * Created with IntelliJ IDEA.
  * $ Project: Tic-Tac-Toe with AI
@@ -15,18 +18,79 @@ public class Computer extends Player {
     }
 
     @Override
-    public void play(Cell[][] board) {
-        System.out.println("Making move level \"easy\"");
-
+    public void play(Cell[][] board,
+                     List<Cell> oponentMoves) {
         if (difficult.equals(Difficult.EASY)) {
+            System.out.println("Making move level \"easy\"");
             easyMove(board);
         } else if (difficult.equals(Difficult.MEDIUM)) {
-            mediumMove(board);
+            System.out.println("Making move level \"medium\"");
+            mediumMove(board,
+                       oponentMoves);
+        } else if (difficult.equals(Difficult.HARD)) {
+            System.out.println("Making move level \"hard\"");
+            hardMove(board,
+                     oponentMoves);
         }
     }
 
-    private void mediumMove(Cell[][] board) {
+    private void hardMove(Cell[][] board,
+                          List<Cell> oponentMoves) {
+        this.easyMove(board);
+    }
 
+    private void mediumMove(Cell[][] board,
+                            List<Cell> oponentMoves) {
+        for (CellGroup cellGroup : TicTacToe.getWinnerCombination()) {
+            int matches = cellGroup.matches(this.getMoves(),
+                                            this.symbol);
+
+            if (matches == 2) {
+                Optional<Cell> winnerMove = cellGroup.getWinnerMove(this.getMoves(),
+                                                                    this.symbol);
+
+                if (winnerMove.isPresent()) {
+                    Cell cell = winnerMove.get();
+
+                    if (board[cell.getRow()][cell.getColumn()].getSymbol() != 'X' &&
+                        board[cell.getRow()][cell.getColumn()].getSymbol() != 'O') {
+
+                        board[cell.getRow()][cell.getColumn()] = Cell.createCell(cell.getRow(),
+                                                                                 cell.getColumn(),
+                                                                                 symbol);
+                        this.addMove(board[cell.getRow()][cell.getColumn()]);
+                        return;
+                    }
+                }
+            }
+        }
+
+        for (CellGroup cellGroup : TicTacToe.getWinnerCombination()) {
+            int matches = cellGroup.matches(oponentMoves,
+                                            this.symbol == 'X' ? 'O' : 'X');
+
+            if (matches == 2) {
+                Optional<Cell> winnerMove = cellGroup.getWinnerMove(oponentMoves,
+                                                                    this.symbol == 'X' ? 'O' : 'X');
+
+                if (winnerMove.isPresent()) {
+                    Cell cell = winnerMove.get();
+
+                    if (board[cell.getRow()][cell.getColumn()].getSymbol() != 'X' &&
+                        board[cell.getRow()][cell.getColumn()].getSymbol() != 'O') {
+
+                        board[cell.getRow()][cell.getColumn()] = Cell.createCell(cell.getRow(),
+                                                                                 cell.getColumn(),
+                                                                                 symbol);
+                        this.addMove(board[cell.getRow()][cell.getColumn()]);
+                        return;
+                    }
+                }
+            }
+        }
+
+
+        this.easyMove(board);
     }
 
     private void easyMove(Cell[][] board) {

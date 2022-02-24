@@ -30,5 +30,6 @@ public abstract class Player {
         this.moves.add(cell);
     }
 
-    public abstract void play(Cell[][] board);
+    public abstract void play(Cell[][] board,
+                              List<Cell> oponentMoves);
 }
