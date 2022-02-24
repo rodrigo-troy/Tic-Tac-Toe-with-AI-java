@@ -110,11 +110,14 @@ public class TicTacToe {
             Cell cell2 = board[cellGroup.getRowIndex1()][cellGroup.getColumnIndex1()];
             Cell cell3 = board[cellGroup.getRowIndex2()][cellGroup.getColumnIndex2()];
 
-            if (cell1 == cell2 && cell2 == cell3) {
+            if (cell1.getSymbol() == cell2.getSymbol() &&
+                cell2.getSymbol() == cell3.getSymbol()) {
                 if (cell1.getSymbol() == 'X') {
                     xWin = true;
+                    break;
                 } else if (cell1.getSymbol() == 'O') {
                     oWin = true;
+                    break;
                 }
             }
         }
