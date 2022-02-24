@@ -1,5 +1,7 @@
 package tictactoe;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * $ Project: Tic-Tac-Toe with AI
@@ -53,7 +55,17 @@ public class CellGroup {
         return columnIndex2;
     }
 
-    public boolean contains(Cell cell) {
-        return false;
+    public int matches(List<Cell> cells) {
+        int x = 0;
+
+        for (Cell cell : cells) {
+            if ((cell.getRow() == rowIndex0 && cell.getColumn() == columnIndex0) ||
+                (cell.getRow() == rowIndex1 && cell.getColumn() == columnIndex1) ||
+                (cell.getRow() == rowIndex2 && cell.getColumn() == columnIndex2)) {
+                x++;
+            }
+        }
+
+        return x;
     }
 }

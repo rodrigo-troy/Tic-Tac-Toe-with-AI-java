@@ -39,6 +39,7 @@ public class Computer extends Player {
                 board[rowIndex][columnIndex] = Cell.createCell(rowIndex,
                                                                columnIndex,
                                                                symbol);
+                this.addMove(board[rowIndex][columnIndex]);
                 return;
             }
         }
