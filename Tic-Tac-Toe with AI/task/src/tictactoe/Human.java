@@ -52,15 +52,16 @@ public class Human extends Player {
             rowIndex--;
             columnIndex--;
 
-            if (board[rowIndex][columnIndex].getSymbol() == 'X' ||
-                board[rowIndex][columnIndex].getSymbol() == 'O') {
-                System.out.println("This cell is occupied! Choose another one!");
-            } else {
+            if (this.isAvailable(board,
+                                 rowIndex,
+                                 columnIndex)) {
                 board[rowIndex][columnIndex] = Cell.createCell(rowIndex,
                                                                columnIndex,
                                                                symbol);
                 this.addMove(board[rowIndex][columnIndex]);
                 return;
+            } else {
+                System.out.println("This cell is occupied! Choose another one!");
             }
         }
     }

@@ -22,6 +22,13 @@ public abstract class Player {
         this.moves = new ArrayList<>();
     }
 
+    protected boolean isAvailable(Cell[][] board,
+                                  int rowIndex,
+                                  int columnIndex) {
+        return board[rowIndex][columnIndex].getSymbol() != 'X' &&
+               board[rowIndex][columnIndex].getSymbol() != 'O';
+    }
+
     protected List<Cell> getMoves() {
         return moves;
     }
