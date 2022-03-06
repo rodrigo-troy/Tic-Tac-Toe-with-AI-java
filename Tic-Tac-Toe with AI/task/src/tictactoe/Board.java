@@ -113,7 +113,6 @@ public class Board {
         return free;
     }
 
-
     public Board getCopy() {
         Player[] players = new Player[2];
 
