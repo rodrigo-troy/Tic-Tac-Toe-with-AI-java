@@ -97,6 +97,22 @@ public class Board {
         System.out.println("---------");
     }
 
+    public List<Cell> getEmptyCells() {
+        List<Cell> free = new ArrayList<>();
+
+        for (int row = 0; row < table.length; row++) {
+            for (int column = 0; column < table[row].length; column++) {
+                char symbol = table[row][column].getSymbol();
+
+                if (symbol == ' ') {
+                    free.add(table[row][column]);
+                }
+            }
+        }
+
+        return free;
+    }
+
 
     public Board getCopy() {
         Player[] players = new Player[2];

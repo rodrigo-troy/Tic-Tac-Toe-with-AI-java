@@ -1,5 +1,6 @@
 package tictactoe;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -31,6 +32,14 @@ public class Computer extends Player {
     }
 
     private void hardMove(Board board) {
+        List<Cell> emptyCells = board.getEmptyCells();
+
+        System.out.println(emptyCells);
+
+        for (Cell emptyCell : emptyCells) {
+
+        }
+
         this.easyMove(board);
     }
 
