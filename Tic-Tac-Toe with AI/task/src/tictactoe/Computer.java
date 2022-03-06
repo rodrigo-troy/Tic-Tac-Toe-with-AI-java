@@ -1,6 +1,5 @@
 package tictactoe;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -18,47 +17,41 @@ public class Computer extends Player {
     }
 
     @Override
-    public void play(Cell[][] board,
-                     List<Cell> oponentMoves) {
+    public void play(Board board) {
         if (difficult.equals(Difficult.EASY)) {
             System.out.println("Making move level \"easy\"");
             easyMove(board);
         } else if (difficult.equals(Difficult.MEDIUM)) {
             System.out.println("Making move level \"medium\"");
-            mediumMove(board,
-                       oponentMoves);
+            mediumMove(board);
         } else if (difficult.equals(Difficult.HARD)) {
             System.out.println("Making move level \"hard\"");
-            hardMove(board,
-                     oponentMoves);
+            hardMove(board);
         }
     }
 
-    private void hardMove(Cell[][] board,
-                          List<Cell> opponentMoves) {
+    private void hardMove(Board board) {
         this.easyMove(board);
     }
 
-    private void mediumMove(Cell[][] board,
-                            List<Cell> opponentMoves) {
+    private void mediumMove(Board board) {
         for (CellGroup cellGroup : TicTacToe.getWinnerCombination()) {
-            int matches = cellGroup.matches(this.getMoves(),
+            int matches = cellGroup.matches(board.getPlayerMoves(this),
                                             this.symbol);
 
             if (matches == 2) {
-                Optional<Cell> winnerMove = cellGroup.getWinnerMove(this.getMoves(),
+                Optional<Cell> winnerMove = cellGroup.getWinnerMove(board.getPlayerMoves(this),
                                                                     this.symbol);
 
                 if (winnerMove.isPresent()) {
                     Cell cell = winnerMove.get();
 
-                    if (this.isAvailable(board,
-                                         cell.getRow(),
-                                         cell.getColumn())) {
-                        board[cell.getRow()][cell.getColumn()] = Cell.createCell(cell.getRow(),
-                                                                                 cell.getColumn(),
-                                                                                 symbol);
-                        this.addMove(board[cell.getRow()][cell.getColumn()]);
+                    if (board.isAvailable(cell.getRow(),
+                                          cell.getColumn())) {
+                        board.addMove(this,
+                                      Cell.createCell(cell.getRow(),
+                                                      cell.getColumn(),
+                                                      symbol));
                         return;
                     }
                 }
@@ -66,23 +59,22 @@ public class Computer extends Player {
         }
 
         for (CellGroup cellGroup : TicTacToe.getWinnerCombination()) {
-            int matches = cellGroup.matches(opponentMoves,
+            int matches = cellGroup.matches(board.getOpponentMoves(this),
                                             this.symbol == 'X' ? 'O' : 'X');
 
             if (matches == 2) {
-                Optional<Cell> winnerMove = cellGroup.getWinnerMove(opponentMoves,
+                Optional<Cell> winnerMove = cellGroup.getWinnerMove(board.getOpponentMoves(this),
                                                                     this.symbol == 'X' ? 'O' : 'X');
 
                 if (winnerMove.isPresent()) {
                     Cell cell = winnerMove.get();
 
-                    if (this.isAvailable(board,
-                                         cell.getRow(),
-                                         cell.getColumn())) {
-                        board[cell.getRow()][cell.getColumn()] = Cell.createCell(cell.getRow(),
-                                                                                 cell.getColumn(),
-                                                                                 symbol);
-                        this.addMove(board[cell.getRow()][cell.getColumn()]);
+                    if (board.isAvailable(cell.getRow(),
+                                          cell.getColumn())) {
+                        board.addMove(this,
+                                      Cell.createCell(cell.getRow(),
+                                                      cell.getColumn(),
+                                                      symbol));
                         return;
                     }
                 }
@@ -92,18 +84,17 @@ public class Computer extends Player {
         this.easyMove(board);
     }
 
-    private void easyMove(Cell[][] board) {
+    private void easyMove(Board board) {
         while (true) {
             int rowIndex = (int) (Math.random() * 3);
             int columnIndex = (int) (Math.random() * 3);
 
-            if (this.isAvailable(board,
-                                 rowIndex,
-                                 columnIndex)) {
-                board[rowIndex][columnIndex] = Cell.createCell(rowIndex,
-                                                               columnIndex,
-                                                               symbol);
-                this.addMove(board[rowIndex][columnIndex]);
+            if (board.isAvailable(rowIndex,
+                                  columnIndex)) {
+                board.addMove(this,
+                              Cell.createCell(rowIndex,
+                                              columnIndex,
+                                              symbol));
                 return;
             }
         }

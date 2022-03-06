@@ -1,6 +1,5 @@
 package tictactoe;
 
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -17,8 +16,7 @@ public class Human extends Player {
     }
 
     @Override
-    public void play(Cell[][] board,
-                     List<Cell> oponentMoves) {
+    public void play(Board board) {
         Scanner scanner = null;
 
         while (true) {
@@ -52,13 +50,12 @@ public class Human extends Player {
             rowIndex--;
             columnIndex--;
 
-            if (this.isAvailable(board,
-                                 rowIndex,
-                                 columnIndex)) {
-                board[rowIndex][columnIndex] = Cell.createCell(rowIndex,
-                                                               columnIndex,
-                                                               symbol);
-                this.addMove(board[rowIndex][columnIndex]);
+            if (board.isAvailable(rowIndex,
+                                  columnIndex)) {
+                board.addMove(this,
+                              Cell.createCell(rowIndex,
+                                              columnIndex,
+                                              symbol));
                 return;
             } else {
                 System.out.println("This cell is occupied! Choose another one!");

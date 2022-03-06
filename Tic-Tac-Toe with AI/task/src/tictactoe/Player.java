@@ -1,7 +1,6 @@
 package tictactoe;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,30 +12,30 @@ import java.util.List;
 public abstract class Player {
     protected final Difficult difficult;
     protected final char symbol;
-    private final List<Cell> moves;
 
     public Player(Difficult difficult,
                   char symbol) {
         this.difficult = difficult;
         this.symbol = symbol;
-        this.moves = new ArrayList<>();
     }
 
-    protected boolean isAvailable(Cell[][] board,
-                                  int rowIndex,
-                                  int columnIndex) {
-        return board[rowIndex][columnIndex].getSymbol() != 'X' &&
-               board[rowIndex][columnIndex].getSymbol() != 'O';
+    public char getSymbol() {
+        return symbol;
     }
 
-    protected List<Cell> getMoves() {
-        return moves;
+    public abstract void play(Board board);
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Player)) return false;
+        Player player = (Player) o;
+        return symbol == player.symbol && difficult == player.difficult;
     }
 
-    protected void addMove(Cell cell) {
-        this.moves.add(cell);
+    @Override
+    public int hashCode() {
+        return Objects.hash(difficult,
+                            symbol);
     }
-
-    public abstract void play(Cell[][] board,
-                              List<Cell> oponentMoves);
 }

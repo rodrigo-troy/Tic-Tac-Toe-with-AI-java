@@ -12,12 +12,7 @@ import java.util.Scanner;
  * Time: 13:30
  */
 public class TicTacToe {
-    private final Cell[][] board;
-
-    public TicTacToe() {
-        this.board = new Cell[3][3];
-        this.prepareBoard();
-    }
+    private Board board;
 
     public static List<CellGroup> getWinnerCombination() {
         List<CellGroup> winnerCoord = new ArrayList<>();
@@ -72,28 +67,19 @@ public class TicTacToe {
         return winnerCoord;
     }
 
-    private void prepareBoard() {
-        for (int row = 0; row < board.length; row++) {
-            for (int column = 0; column < board[row].length; column++) {
-                board[row][column] = Cell.createEmptyCell(row,
-                                                          column);
-            }
-        }
-    }
-
     private boolean isGameOver(Player player1,
                                Player player2) {
         List<CellGroup> winnerCoord = getWinnerCombination();
-        int xCells = player1.getMoves().size();
-        int oCells = player2.getMoves().size();
+        int xCells = this.board.getPlayerMoves(player1).size();
+        int oCells = this.board.getPlayerMoves(player2).size();
         int emptyCells = 9 - xCells - oCells;
 
         boolean xWin = false;
         boolean oWin = false;
         for (CellGroup cellGroup : winnerCoord) {
-            Cell cell1 = board[cellGroup.getRowIndex0()][cellGroup.getColumnIndex0()];
-            Cell cell2 = board[cellGroup.getRowIndex1()][cellGroup.getColumnIndex1()];
-            Cell cell3 = board[cellGroup.getRowIndex2()][cellGroup.getColumnIndex2()];
+            Cell cell1 = this.board.getTable()[cellGroup.getRowIndex0()][cellGroup.getColumnIndex0()];
+            Cell cell2 = this.board.getTable()[cellGroup.getRowIndex1()][cellGroup.getColumnIndex1()];
+            Cell cell3 = this.board.getTable()[cellGroup.getRowIndex2()][cellGroup.getColumnIndex2()];
 
             if (cell1.getSymbol() == cell2.getSymbol() &&
                 cell2.getSymbol() == cell3.getSymbol()) {
@@ -133,25 +119,6 @@ public class TicTacToe {
         return true;
     }
 
-    private void printBoard() {
-        System.out.println("---------");
-
-        for (int row = 0; row < board.length; row++) {
-            for (int column = 0; column < board[row].length; column++) {
-                char symbol = board[row][column].getSymbol();
-
-                if (column == 0) {
-                    System.out.print("| " + symbol);
-                } else if (column == 1) {
-                    System.out.print(" " + symbol + " ");
-                } else {
-                    System.out.print(symbol + " |\n");
-                }
-            }
-        }
-
-        System.out.println("---------");
-    }
 
     public void starGame() {
         Player player1 = null;
@@ -195,22 +162,22 @@ public class TicTacToe {
             }
         }
 
-        this.printBoard();
+        this.board = new Board(player1,
+                               player2);
+        this.board.printBoard();
 
         while (true) {
-            player1.play(board,
-                         player2.getMoves());
-            this.printBoard();
+            player1.play(board);
+            this.board.printBoard();
 
             if (this.isGameOver(player1,
                                 player2)) {
                 return;
             }
 
-            player2.play(board,
-                         player1.getMoves());
+            player2.play(board);
 
-            this.printBoard();
+            this.board.printBoard();
 
             if (this.isGameOver(player1,
                                 player1)) {

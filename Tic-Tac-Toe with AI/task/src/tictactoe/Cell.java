@@ -12,6 +12,12 @@ public class Cell {
     private final int column;
     private final char symbol;
 
+    public Cell(Cell cell) {
+        this.row = cell.getRow();
+        this.column = cell.getColumn();
+        this.symbol = cell.getSymbol();
+    }
+
     public Cell(int row,
                 int column,
                 char symbol) {
