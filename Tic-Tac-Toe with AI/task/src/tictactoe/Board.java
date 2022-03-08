@@ -121,6 +121,7 @@ public class Board {
         int x = 0;
         for (Player player : this.playersMoves.keySet()) {
             players[x] = player;
+            x++;
         }
 
         Board board = new Board(players[0],
