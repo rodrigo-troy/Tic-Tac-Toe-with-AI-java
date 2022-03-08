@@ -33,13 +33,12 @@ public class Computer extends Player {
     }
 
     private void hardMove(Board board) {
-        Minimax minimax = new Minimax(board,
-                                      board.getOpponent(this).get(),
+        Minimax minimax = new Minimax(board.getOpponent(this).get(),
                                       this);
+        minimax.constructTree(board);
 
         this.easyMove(board);
     }
-
 
     private void mediumMove(Board board) {
         for (CellGroup cellGroup : TicTacToe.getWinnerCombination()) {

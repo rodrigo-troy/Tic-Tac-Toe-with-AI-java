@@ -15,8 +15,8 @@ public class Board {
 
     public Board(Player player1,
                  Player player2) {
-        preparePlayer(player1,
-                      player2);
+        this.preparePlayer(player1,
+                           player2);
         this.prepareBoard();
     }
 

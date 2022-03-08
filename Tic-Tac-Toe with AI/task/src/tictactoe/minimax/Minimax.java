@@ -14,15 +14,12 @@ import java.util.List;
  * Time: 19:09
  */
 public class Minimax {
-    private final Board board;
     private final Player minPlayer;
     private final Player maxPlayer;
-    private Tree tree;
+    private final Tree tree;
 
-    public Minimax(Board board,
-                   Player minPlayer,
+    public Minimax(Player minPlayer,
                    Player maxPlayer) {
-        this.board = board;
         this.minPlayer = minPlayer;
         this.maxPlayer = maxPlayer;
         tree = new Tree();
@@ -34,7 +31,7 @@ public class Minimax {
         tree.setRoot(root);
 
         System.out.println("INIT constructTree");
-        constructTree(root);
+        this.constructTree(root);
         System.out.println("END constructTree");
     }
 
