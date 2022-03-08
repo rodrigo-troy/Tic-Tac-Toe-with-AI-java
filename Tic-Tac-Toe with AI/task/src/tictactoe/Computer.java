@@ -1,6 +1,7 @@
 package tictactoe;
 
-import java.util.List;
+import tictactoe.minimax.Minimax;
+
 import java.util.Optional;
 
 /**
@@ -32,16 +33,13 @@ public class Computer extends Player {
     }
 
     private void hardMove(Board board) {
-        List<Cell> emptyCells = board.getEmptyCells();
-
-        System.out.println(emptyCells);
-
-        for (Cell emptyCell : emptyCells) {
-
-        }
+        Minimax minimax = new Minimax(board,
+                                      board.getOpponent(this).get(),
+                                      this);
 
         this.easyMove(board);
     }
+
 
     private void mediumMove(Board board) {
         for (CellGroup cellGroup : TicTacToe.getWinnerCombination()) {

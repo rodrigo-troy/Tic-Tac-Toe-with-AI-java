@@ -44,9 +44,11 @@ public class Board {
     }
 
     public List<Cell> getOpponentMoves(Player player) {
-        Optional<Player> opponent = this.playersMoves.keySet().stream().filter(p -> p != player).findFirst();
+        return this.getOpponent(player).map(this::getPlayerMoves).orElse(null);
+    }
 
-        return opponent.map(this::getPlayerMoves).orElse(null);
+    public Optional<Player> getOpponent(Player player) {
+        return this.playersMoves.keySet().stream().filter(p -> p != player).findFirst();
     }
 
     public void addMove(Player player,
