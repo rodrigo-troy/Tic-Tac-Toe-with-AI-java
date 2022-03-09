@@ -53,16 +53,18 @@ public class Board {
 
     public void addMove(Player player,
                         Cell cell) {
-        this.table[cell.getRow()][cell.getColumn()] = Cell.createCell(cell.getRow(),
-                                                                      cell.getColumn(),
-                                                                      player.getSymbol());
-        this.getPlayerMoves(player).add(cell);
+        Cell newCell = Cell.createCell(cell.getRow(),
+                                       cell.getColumn(),
+                                       player.getSymbol());
+        this.table[cell.getRow()][cell.getColumn()] = newCell;
+        this.getPlayerMoves(player).add(newCell);
     }
 
     public void copyMove(Player player,
                          Cell cell) {
-        this.table[cell.getRow()][cell.getColumn()] = new Cell(cell);
-        this.getPlayerMoves(player).add(cell);
+        Cell newCell = new Cell(cell);
+        this.table[cell.getRow()][cell.getColumn()] = newCell;
+        this.getPlayerMoves(player).add(newCell);
     }
 
     public Cell[][] getTable() {
@@ -124,16 +126,19 @@ public class Board {
             x++;
         }
 
-        Board board = new Board(players[0],
-                                players[1]);
+        Board newBoard = new Board(players[0],
+                                   players[1]);
 
-        this.playersMoves.forEach((player, cells) -> {
+        for (Map.Entry<Player, List<Cell>> entry : this.playersMoves.entrySet()) {
+            Player player = entry.getKey();
+            List<Cell> cells = entry.getValue();
+
             for (Cell cell : cells) {
-                board.copyMove(player,
-                               cell);
+                newBoard.copyMove(player,
+                                  cell);
             }
-        });
+        }
 
-        return board;
+        return newBoard;
     }
 }

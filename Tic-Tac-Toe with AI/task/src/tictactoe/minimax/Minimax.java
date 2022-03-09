@@ -38,27 +38,28 @@ public class Minimax {
 
     private void constructTree(Node parentNode,
                                Boolean isMaxPlayerMove) {
-        List<Cell> availableCells = parentNode.getBoard().getEmptyCells();
+        Board parentNodeBoard = parentNode.getBoard();
+        List<Cell> availableCells = parentNodeBoard.getEmptyCells();
 
         System.out.printf("availableCells[%d]: %s\n",
                           availableCells.size(),
                           availableCells);
 
-        availableCells.forEach(cell -> {
-            Board board = parentNode.getBoard().getCopy();
-            board.addMove(isMaxPlayerMove ? maxPlayer : minPlayer,
-                          cell);
+        for (Cell cell : availableCells) {
+            Board newBoard = parentNodeBoard.getCopy();
+            newBoard.addMove(isMaxPlayerMove ? maxPlayer : minPlayer,
+                             cell);
 
-            //board.printBoard();
+            newBoard.printBoard();
 
-            Node newNode = new Node(board,
-                                    isMaxPlayerMove);
+            Node newNode = new Node(newBoard,
+                                    !isMaxPlayerMove);
             parentNode.addChild(newNode);
 
-            if (availableCells.size() > 0) {
+            if (newBoard.getEmptyCells().size() > 0) {
                 constructTree(newNode,
                               !isMaxPlayerMove);
             }
-        });
+        }
     }
 }

@@ -55,10 +55,10 @@ public class Cell {
 
     @Override
     public String toString() {
-        return "Cell{" +
-               "x=" + column +
-               ", y=" + row +
-               ", symbol=" + symbol +
+        return "C{" +
+               "col=" + column +
+               ", row=" + row +
+               (symbol != ' ' ? (", s=" + symbol) : "") +
                '}';
     }
 }
