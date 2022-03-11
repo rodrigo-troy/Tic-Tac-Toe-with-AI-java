@@ -32,17 +32,20 @@ public class Minimax {
 
         //System.out.println("INIT constructTree");
         this.constructTree(root,
-                           true);
+                           true,
+                           1000);
         //System.out.println("END constructTree");
     }
 
     public Cell getBestMove() {
-        return this.findBestChild(true,
-                                  tree.getRoot().getChildren()).getOriginalMove();
+        Cell bestMove = this.findBestChild(true,
+                                           tree.getRoot().getChildren()).getOriginalMove();
+        return bestMove;
     }
 
     private void setNodeScore(Node node,
-                              Boolean isMaxPlayerMove) {
+                              Boolean isMaxPlayerMove,
+                              int distancePoints) {
         List<CellGroup> winnerCoord = TicTacToe.getWinnerCombination();
 
         Board nodeBoard = node.getBoard();
@@ -80,9 +83,9 @@ public class Minimax {
             if (node.getOriginalMove().getSymbol() == 'X' &&
                 maxPlayer.getSymbol() == 'X' &&
                 isMaxPlayerMove) {
-                node.setScore(10);
+                node.setScore(10 + distancePoints);
             } else {
-                node.setScore(-10);
+                node.setScore(-10 - distancePoints);
             }
 
             node.setGameOver(true);
@@ -94,9 +97,9 @@ public class Minimax {
             if (node.getOriginalMove().getSymbol() == 'O' &&
                 maxPlayer.getSymbol() == 'O' &&
                 isMaxPlayerMove) {
-                node.setScore(10);
+                node.setScore(10 + distancePoints);
             } else {
-                node.setScore(-10);
+                node.setScore(-10 - distancePoints);
             }
 
             node.setGameOver(true);
@@ -108,9 +111,9 @@ public class Minimax {
             if (node.getOriginalMove().getSymbol() == 'X' &&
                 maxPlayer.getSymbol() == 'X' &&
                 isMaxPlayerMove) {
-                node.setScore(-10);
+                node.setScore(-10 - distancePoints);
             } else {
-                node.setScore(10);
+                node.setScore(10 + distancePoints);
             }
 
             return;
@@ -139,7 +142,8 @@ public class Minimax {
     }
 
     private void constructTree(Node parentNode,
-                               Boolean isMaxPlayerMove) {
+                               Boolean isMaxPlayerMove,
+                               int distancePoints) {
         Board parentNodeBoard = parentNode.getBoard();
         List<Cell> availableCells = parentNodeBoard.getEmptyCells();
 
@@ -155,12 +159,15 @@ public class Minimax {
             Node newNode = new Node(newBoard,
                                     originalMove);
             this.setNodeScore(newNode,
-                              isMaxPlayerMove);
+                              isMaxPlayerMove,
+                              distancePoints);
+
             parentNode.addChild(newNode);
 
             if (!newNode.isGameOver()) {
                 this.constructTree(newNode,
-                                   !isMaxPlayerMove);
+                                   !isMaxPlayerMove,
+                                   distancePoints - 100);
             }
         }
 
