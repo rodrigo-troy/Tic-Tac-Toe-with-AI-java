@@ -39,10 +39,8 @@ public class Minimax {
     }
 
     public Cell getBestMove() {
-        System.out.println("best move");
-        Cell bestMove = this.findBestChild(true,
-                                           tree.getRoot().getChildren()).getOriginalMove();
-        return bestMove;
+        return this.findBestChild(true,
+                                  tree.getRoot().getChildren()).getOriginalMove();
     }
 
     private boolean isGameOver(Node node) {
