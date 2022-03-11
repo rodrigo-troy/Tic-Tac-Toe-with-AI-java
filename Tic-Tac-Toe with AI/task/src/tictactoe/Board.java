@@ -143,4 +143,19 @@ public class Board {
 
         return newBoard;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (Cell[] cell : table) {
+            for (Cell c : cell) {
+                stringBuilder.append(c.getSymbol());
+            }
+
+            stringBuilder.append("|");
+        }
+
+        return stringBuilder.toString();
+    }
 }

@@ -39,7 +39,8 @@ public class Computer extends Player {
 
         Cell bestMove = minimax.getBestMove();
 
-        this.easyMove(board);
+        board.addMove(this,
+                      bestMove);
     }
 
     private void mediumMove(Board board) {

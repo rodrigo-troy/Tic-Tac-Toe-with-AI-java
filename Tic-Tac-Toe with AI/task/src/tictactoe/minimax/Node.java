@@ -17,14 +17,17 @@ public class Node {
     private final Board board;
     private Cell originalMove;
     private boolean isGameOver;
-    private int score;
+    private boolean isMaxPlayerMove;
+    private Integer score;
     private List<Node> children;
 
     public Node(Board board,
-                Cell originalMove) {
+                Cell originalMove,
+                boolean isMaxPlayerMove) {
         this.board = board;
         this.originalMove = originalMove;
         this.isGameOver = false;
+        this.isMaxPlayerMove = isMaxPlayerMove;
     }
 
     public boolean isGameOver() {
@@ -47,11 +50,11 @@ public class Node {
         return board;
     }
 
-    public int getScore() {
+    public Integer getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(Integer score) {
         this.score = score;
     }
 
@@ -76,6 +79,7 @@ public class Node {
         return "Node{" +
                "board=" + board +
                ", isGameOver=" + isGameOver +
+               ", isMaxPlayerMove=" + isMaxPlayerMove +
                ", originalMove=" + originalMove +
                ", score=" + score +
                ", #children=" + this.getChildren().size() +
