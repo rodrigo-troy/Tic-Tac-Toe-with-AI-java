@@ -1,6 +1,7 @@
 package tictactoe.minimax;
 
 import tictactoe.Board;
+import tictactoe.Cell;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,26 +15,36 @@ import java.util.List;
  */
 public class Node {
     private final Board board;
-    private boolean isMaxPlayer;
+    private Cell originalMove;
+    private boolean isGameOver;
     private int score;
     private List<Node> children;
 
     public Node(Board board,
-                boolean isMaxPlayer) {
+                Cell originalMove) {
         this.board = board;
-        this.isMaxPlayer = isMaxPlayer;
+        this.originalMove = originalMove;
+        this.isGameOver = false;
+    }
+
+    public boolean isGameOver() {
+        return isGameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        isGameOver = gameOver;
+    }
+
+    public Cell getOriginalMove() {
+        return originalMove;
+    }
+
+    public void setOriginalMove(Cell originalMove) {
+        this.originalMove = originalMove;
     }
 
     public Board getBoard() {
         return board;
-    }
-
-    public boolean isMaxPlayer() {
-        return isMaxPlayer;
-    }
-
-    public void setMaxPlayer(boolean maxPlayer) {
-        isMaxPlayer = maxPlayer;
     }
 
     public int getScore() {
@@ -64,7 +75,8 @@ public class Node {
     public String toString() {
         return "Node{" +
                "board=" + board +
-               ", isMaxPlayer=" + isMaxPlayer +
+               ", isGameOver=" + isGameOver +
+               ", originalMove=" + originalMove +
                ", score=" + score +
                ", #children=" + this.getChildren().size() +
                '}';

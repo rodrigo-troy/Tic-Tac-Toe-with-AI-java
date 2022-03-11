@@ -51,13 +51,15 @@ public class Board {
         return this.playersMoves.keySet().stream().filter(p -> p != player).findFirst();
     }
 
-    public void addMove(Player player,
+    public Cell addMove(Player player,
                         Cell cell) {
         Cell newCell = Cell.createCell(cell.getRow(),
                                        cell.getColumn(),
                                        player.getSymbol());
         this.table[cell.getRow()][cell.getColumn()] = newCell;
         this.getPlayerMoves(player).add(newCell);
+
+        return newCell;
     }
 
     public void copyMove(Player player,

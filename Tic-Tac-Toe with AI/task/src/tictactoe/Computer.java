@@ -33,9 +33,11 @@ public class Computer extends Player {
     }
 
     private void hardMove(Board board) {
-        Minimax minimax = new Minimax(board.getOpponent(this).get(),
-                                      this);
+        Minimax minimax = new Minimax(this,
+                                      board.getOpponent(this).get());
         minimax.constructTree(board);
+
+        Cell bestMove = minimax.getBestMove();
 
         this.easyMove(board);
     }
