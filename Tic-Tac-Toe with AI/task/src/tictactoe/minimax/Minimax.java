@@ -31,11 +31,9 @@ public class Minimax {
                              true);
         tree.setRoot(root);
 
-        //System.out.println("INIT constructTree");
         this.constructTree(root,
                            true,
                            0);
-        //System.out.println("END constructTree");
     }
 
     public Cell getBestMove() {
@@ -151,20 +149,11 @@ public class Minimax {
 
     private Node findBestChild(boolean isMaxPlayer,
                                List<Node> children) {
-       /* System.out.println("INIT findBestChild");
-        System.out.println("\tisMaxPlayer: " + isMaxPlayer);
-        children.forEach(node -> System.out.printf("score: %d.\t",
-                                                   node.getScore()));*/
         Comparator<Node> byScoreComparator = Comparator.comparing(Node::getScore);
 
-        Node node = children.stream()
-                            .max(isMaxPlayer ? byScoreComparator : byScoreComparator.reversed())
-                            .orElseThrow(NoSuchElementException::new);
-
-       /* System.out.println("\n\tBest child: " + node);
-        System.out.println("END findBestChild\n");
-*/
-        return node;
+        return children.stream()
+                       .max(isMaxPlayer ? byScoreComparator : byScoreComparator.reversed())
+                       .orElseThrow(NoSuchElementException::new);
     }
 
     private void constructTree(Node parentNode,
