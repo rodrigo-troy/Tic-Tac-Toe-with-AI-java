@@ -1,7 +1,3 @@
-Sure, I can help you with that. Here's a draft of a README for your Tic-Tac-Toe with AI project:
-
----
-
 # Tic-Tac-Toe with AI
 
 Welcome to the Tic-Tac-Toe with AI project! This Java-based application allows users to play the classic game of Tic-Tac-Toe against an AI opponent.
@@ -53,12 +49,3 @@ Contributions are welcome! If you would like to contribute to this project, plea
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
-
-## Acknowledgments
-
-- This project was inspired by the classic game of Tic-Tac-Toe.
-- Special thanks to the developers and contributors of Java libraries used in this project.
-
----
-
-Feel free to modify this template as needed. Let me know if there is anything specific you would like to add or change!
