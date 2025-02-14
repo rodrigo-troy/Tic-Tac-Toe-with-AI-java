@@ -9,10 +9,6 @@ Welcome to the Tic-Tac-Toe with AI project! This Java-based application allows u
 - Intelligent AI that provides a challenging gameplay experience
 - Ability to restart the game and play multiple rounds
 
-## Screenshots
-
-[Include screenshots of the game interface here]
-
 ## Getting Started
 
 ### Prerequisites
